@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghar Jaisa – Order</title>
+
+<style>
+:root{
+  --accent:#8B4513;
+  --accent2:#ffdd9e;
+  --bg-light:#f5f3ef;
+  --card-light:#ffffffcc;
+  --card-dark:#1c1c1ccc;
+  --shadow-light:0 12px 40px rgba(0,0,0,0.15);
+  --shadow-dark:0 18px 50px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:"Segoe UI",sans-serif;
+  background:var(--bg-light);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  transition:0.35s;
+  color:#222;
+}
+body.dark{
+  background:#121212;
+  color:#eee;
+}
+
+/* NAVBAR */
+.nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  padding:20px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:linear-gradient(to bottom,rgba(0,0,0,0.35),rgba(0,0,0,0.15));
+  backdrop-filter:blur(10px);
+  z-index:1000;
+}
+.brand{
+  color:var(--accent2);
+  font-weight:800;
+  font-size:22px;
+}
+.nav-links a{
+  color:white;
+  text-decoration:none;
+  margin:0 15px;
+  font-weight:600;
+}
+#themeToggle{
+  background:var(--accent2);
+  color:#4b2e10;
+  padding:8px 16px;
+  border:none;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* HEADER */
+.header{
+  padding-top:130px;
+  text-align:center;
+}
+.header h1{
+  font-size:46px;
+  margin-bottom:6px;
+}
+.header p{
+  opacity:.8;
+}
+
+/* FORM CARD */
+.form-box{
+  width:50%;
+  margin:40px auto;
+  padding:30px;
+  border-radius:20px;
+  backdrop-filter:blur(12px);
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.5s;
+}
+.form-box.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+body:not(.dark) .form-box{
+  background:var(--card-light);
+  box-shadow:var(--shadow-light);
+}
+body.dark .form-box{
+  background:var(--card-dark);
+  box-shadow:var(--shadow-dark);
+}
+
+input, select, textarea{
+  width:100%;
+  padding:14px;
+  margin:12px 0;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.2);
+  background:rgba(255,255,255,0.7);
+  font-size:16px;
+}
+textarea{height:120px;resize:none;}
+
+.btn{
+  width:100%;
+  padding:15px;
+  background:var(--accent);
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  cursor:pointer;
+  font-weight:700;
+  position:relative;
+}
+
+/* FOOTER */
+.footer{
+  background:var(--accent);
+  padding:25px;
+  color:white;
+  text-align:center;
+  font-weight:600;
+  margin-top:auto;
+}
+</style>
+</head>
+
+<body>
+
+<header class="nav">
+  <div class="brand">Ghar Jaisa</div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="order.html">Order</a>
+    <a href="login.html">Login</a>
+  </div>
+  <button id="themeToggle">Dark Mode</button>
+</header>
+
+<section class="header">
+  <h1>Place Your Order</h1>
+  <p>Freshly cooked with love & care.</p>
+</section>
+
+<section class="form-box fade">
+  <form>
+    <input placeholder="Your Name" required>
+    <input placeholder="Mobile Number" required>
+
+    <select required>
+      <option>Dal Tadka — ₹120</option>
+      <option>Paneer Butter Masala — ₹180</option>
+      <option>Veg Biryani — ₹150</option>
+      <option>Veg Thali — ₹250</option>
+      <option>Chicken Curry — ₹220</option>
+    </select>
+
+    <input type="number" placeholder="Quantity" required>
+    <textarea placeholder="Delivery Address"></textarea>
+
+    <button class="btn">Place Order</button>
+  </form>
+</section>
+
+<footer class="footer">
+  © 2025 Ghar Jaisa Restaurant
+</footer>
+
+<script>
+// Theme
+function applyTheme(){
+  if(localStorage.getItem("gj-theme")==="dark") document.body.classList.add("dark");
+}
+applyTheme();
+document.getElementById("themeToggle").onclick=()=>{
+  document.body.classList.toggle("dark");
+  localStorage.setItem("gj-theme",document.body.classList.contains("dark")?"dark":"light");
+};
+
+// Fade
+const box=document.querySelector(".form-box");
+const obs=new IntersectionObserver((e)=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add("visible");});
+},{threshold:0.2});
+obs.observe(box);
+</script>
+
+</body>
+</html>
